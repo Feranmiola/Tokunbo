@@ -47,15 +47,15 @@ const Header = () => {
           </ul>
         </nav>
         <div className="flex items-center lg:gap-2">
-          <Button size="icon" variant="ghost">
+          <Button size="icon" variant="ghost" className='[&_svg]:size-5'>
             <Search className="h-5 w-5" />
           </Button>
-          <Button size="icon" variant="ghost">
+          <Button size="icon" variant="ghost" className='[&_svg]:size-5'>
             <ShoppingBag className="h-5 w-5" />
           </Button>
           <Separator orientation="vertical" />
           <Button variant="ghost" asChild>
-            <Link href="/sign-in">Sign In</Link>
+            <Link href="/login">Sign In</Link>
           </Button>
         </div>
       </Container>

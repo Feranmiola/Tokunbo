@@ -49,6 +49,7 @@ export default {
           800: '#8C3013',
           900: '#6B250E',
         },
+        'surface-varaint': '#49454F',
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',

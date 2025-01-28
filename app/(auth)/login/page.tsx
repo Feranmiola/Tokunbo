@@ -1,13 +1,13 @@
 import Container from '@/components/shared/container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import BuyerForm from './BuyerForm';
-import SellerForm from './SellerForm';
+import BuyerForm from './buyer-form';
+import SellerForm from './seller-form';
 
 export default function Page() {
   return (
     <main className="space-y-8 py-12">
       <Container className="space-y-2 text-center">
-        <h2 className="text-4xl">Register</h2>
+        <h2 className="text-4xl">Sign In</h2>
         <p>
           Are you a buyer or a seller? Kindly provide accurate details to ensure
           a smooth and secure experience on Tokunbo.
