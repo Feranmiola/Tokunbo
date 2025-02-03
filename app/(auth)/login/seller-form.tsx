@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 const schema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
+  password: z.string().min(1, 'Password is required'),
   email: z
     .string()
     .min(1, 'Email address is required')
@@ -30,7 +30,7 @@ const SellerForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       email: '',
-      fullName: '',
+      password: '',
     },
   });
 
@@ -44,25 +44,6 @@ const SellerForm = () => {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <FormField
             control={form.control}
-            name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Full Name<span className="text-destructive">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Full Name"
-                    className="w-full"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
@@ -72,6 +53,27 @@ const SellerForm = () => {
                 <FormControl>
                   <Input
                     placeholder="Email Address"
+                    className="w-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Password<span className="text-destructive">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    isPassword={true}
+                    placeholder="Password"
                     className="w-full"
                     {...field}
                   />
