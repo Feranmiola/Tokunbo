@@ -93,10 +93,11 @@ const SellerForm = () => {
             Continue with Google
           </Button>
           <Button size="lg" className="hover:bg-primary-800">
-            Sign up
+            Sign in
           </Button>
         </div>
         <p className="text-center">
+
           Don&apos;t have an account?{' '}
           <Link href="/register" className="underline">
             Sign up
