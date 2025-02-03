@@ -7,10 +7,11 @@ import { milonga } from '@/app/layout';
 
 const Footer = () => {
   return (
-    <footer className="space-y-12 bg-primary pt-10 text-white">
+    <footer className="space-y-12 bg-primaryGreen pt-10 text-white">
       <Container className="grid lg:grid-cols-[2.55fr_1.45fr] gap-8">
         <section className="grid lg:grid-cols-[0.9fr_0.9fr_0.9fr_1.3fr] gap-8">
           <div className="space-y-2">
+
             <h3 className="font-semibold">Home</h3>
             <ul className="space-y-1">
               {['About Us', 'Privacy Policy', 'Products'].map(link => (

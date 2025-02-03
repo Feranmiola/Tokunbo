@@ -11,9 +11,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        'primaryGreen': '#003637',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
+
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
