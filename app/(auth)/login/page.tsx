@@ -6,12 +6,13 @@ import SellerForm from './seller-form';
 export default function Page() {
   return (
     <main className="space-y-8 py-12">
-      <Container className="space-y-2 text-center">
+      <Container className="space-y-2 text-center max-w-[836px] w-full">
         <h2 className="text-4xl">Sign In</h2>
-        <p>
+        <p className="max-w-[600px] mx-auto text-[18px] text-center">
           Are you a buyer or a seller? Kindly provide accurate details to ensure
           a smooth and secure experience on Tokunbo.
         </p>
+
       </Container>
       <div className="mx-auto w-[95%] max-w-2xl rounded bg-secondary px-6 pb-6 pt-1">
         <Tabs defaultValue="buyer" className="w-full space-y-6">
