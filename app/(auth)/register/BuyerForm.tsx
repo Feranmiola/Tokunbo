@@ -91,6 +91,7 @@ const BuyerForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    isPassword={true}
                     type="password"
                     placeholder="********"
                     className="w-full"
@@ -111,6 +112,7 @@ const BuyerForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    isPassword={true}
                     type="password"
                     placeholder="********"
                     className="w-full"
