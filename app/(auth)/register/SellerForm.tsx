@@ -106,7 +106,7 @@ const SellerForm = () => {
                     onClick={() => setIsNINDialogOpen(true)}
                     type="button"
                   >
-                    <InfoIcon className="h-4 w-4" />
+                    <InfoIcon className="h-2 w-2" />
                   </Button>
                 </FormLabel>
                 <FormControl>
