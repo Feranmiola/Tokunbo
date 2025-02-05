@@ -7,7 +7,7 @@ import { milonga } from '@/app/layout';
 
 const Footer = () => {
   return (
-    <footer className="bg-primaryGreen pt-10 text-white">
+    <footer className="bg-primaryGreen pt-10 px-10 text-white">
       <Container className="flex flex-col w-full space-y-12">
         <div className="flex flex-col lg:flex-row lg-w-full  lg:justify-between gap-8">
           {/* Links Section */}
@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="flex items-center justify-center w-full border-t border-white/20 py-4 max-lg:flex-col max-lg:gap-4">
+        <div className="flex items-center justify-center w-full  py-4 max-lg:flex-col max-lg:gap-4">
           <div className="flex w-full  items-center justify-between max-lg:flex-col max-lg:gap-4">
             <Link href="/">
               <h1
