@@ -8,7 +8,7 @@ export default function Page() {
     <main className="space-y-8 py-12">
       <Container className="space-y-2 text-center w-full flex items-center justify-center flex-col">
         <h2 className="text-4xl">Register</h2>
-        <p className='max-w-[836px] text-center'>
+        <p className='max-w-[636px] text-center'>
           Are you a buyer or a seller? Kindly provide accurate details to ensure
           a smooth and secure experience on Tokunbo.
         </p>
