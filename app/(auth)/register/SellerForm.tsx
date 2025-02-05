@@ -97,7 +97,7 @@ const SellerForm = () => {
             name="nin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex items-center pb-2 space-x-1">
+                <FormLabel className="flex items-center pt-2 space-x-1">
                   NIN<span className="text-destructive">*</span>
                   <Button
                     variant="ghost"
