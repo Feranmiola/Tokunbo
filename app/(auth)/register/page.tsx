@@ -13,26 +13,27 @@ export default function Page() {
           a smooth and secure experience on Tokunbo.
         </p>
       </Container>
-      <div className="mx-auto w-[95%] max-w-2xl rounded bg-secondary px-6 pb-6 pt-1">
+      <div className="mx-auto w-[95%] max-w-2xl rounded bg-[#FAFAFA]  pb-6 pt-1">
         <Tabs defaultValue="buyer" className="w-full space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-2 border-b border-[#CAC4D0]">
             <TabsTrigger
               value="buyer"
-              className="rounded-none shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="rounded-none shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary data-[state=active]:shadow-none"
             >
               Buyer
             </TabsTrigger>
             <TabsTrigger
               value="seller"
-              className="rounded-none shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              className="rounded-none shadow-none data-[state=active]:border-b-2 data-[state=active]:border-b-primary data-[state=active]:shadow-none"
             >
               Seller
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="buyer">
+          <TabsContent className='px-6' value="buyer">
             <BuyerForm />
           </TabsContent>
-          <TabsContent value="seller">
+          <TabsContent className='px-6' value="seller">
+
             <SellerForm />
           </TabsContent>
         </Tabs>
