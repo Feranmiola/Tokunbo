@@ -7,7 +7,7 @@ import { useState } from 'react';
 import ImageUploadForm from './ImageUploadForm';
 
 export default function Page() {
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
   return (
     <div className='flex w-full items-center justify-center py-12'>
       {step === 1 && (
