@@ -21,7 +21,7 @@ import Image from 'next/image';
 
 type Schema = z.infer<typeof buyerSchema>;
 
-const BuyerForm = () => {
+const BuyerForm = (props: {setStep: (step: number) => void}) => {
   const form = useForm<Schema>({
     resolver: zodResolver(buyerSchema),
     defaultValues: {
@@ -34,13 +34,15 @@ const BuyerForm = () => {
   });
 
   const onSubmit = (values: Schema) => {
+    props.setStep(2)
     console.log(values);
   };
 
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-6">
+        <div className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="fullName"
@@ -80,7 +82,7 @@ const BuyerForm = () => {
             )}
           />
         </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="flex flex-col space-y-6">
           <FormField
             control={form.control}
             name="password"
@@ -151,7 +153,7 @@ const BuyerForm = () => {
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="flex flex-col space-y-4">
             <Button
               variant="outline"
               className="flex items-center gap-2 bg-transparent"

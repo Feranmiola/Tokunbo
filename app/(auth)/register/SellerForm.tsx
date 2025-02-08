@@ -30,7 +30,7 @@ import { useState } from 'react';
 
 type Schema = z.infer<typeof sellerSchema>;
 
-const SellerForm = () => {
+const SellerForm = (props: {setStep: (step: number) => void}) => {
   const [isNINDialogOpen, setIsNINDialogOpen] = useState(false);
   const form = useForm<Schema>({
     resolver: zodResolver(sellerSchema),
@@ -45,27 +45,24 @@ const SellerForm = () => {
   });
 
   const onSubmit = (values: Schema) => {
+    props.setStep(2)
     console.log(values);
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-5">
+        <div className="flex flex-col space-y-5">
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>
                   Full Name<span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Full Name"
-                    className="w-full"
-                    {...field}
-                  />
+                  <Input placeholder="Full Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,29 +72,23 @@ const SellerForm = () => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>
                   Email Address<span className="text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Email Address"
-                    className="w-full"
-                    {...field}
-                  />
+                  <Input placeholder="Email Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <FormField
             control={form.control}
             name="nin"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center pt-2 space-x-1">
+              <FormItem className="w-full">
+                <FormLabel className="flex items-center gap-1">
                   NIN<span className="text-destructive">*</span>
                   <Button
                     variant="ghost"
@@ -106,15 +97,11 @@ const SellerForm = () => {
                     onClick={() => setIsNINDialogOpen(true)}
                     type="button"
                   >
-                    <InfoIcon className="h-2 w-2" />
+                    <InfoIcon className="h-4 w-4" />
                   </Button>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter nin"
-                    className="w-full"
-                    {...field}
-                  />
+                  <Input placeholder="Enter nin" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -124,7 +111,7 @@ const SellerForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>
                   Password<span className="text-destructive">*</span>
                 </FormLabel>
@@ -133,7 +120,6 @@ const SellerForm = () => {
                     isPassword={true}
                     type="password"
                     placeholder="********"
-                    className="w-full"
                     {...field}
                   />
                 </FormControl>
@@ -141,13 +127,11 @@ const SellerForm = () => {
               </FormItem>
             )}
           />
-        </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <FormField
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>
                   Confirm Password<span className="text-destructive">*</span>
                 </FormLabel>
@@ -156,7 +140,6 @@ const SellerForm = () => {
                     isPassword={true}
                     type="password"
                     placeholder="********"
-                    className="w-full"
                     {...field}
                   />
                 </FormControl>
@@ -165,49 +148,45 @@ const SellerForm = () => {
             )}
           />
         </div>
-        <div className="space-y-6">
-          <FormField
-            control={form.control}
-            name="agree"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 -space-y-1">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
 
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className="leading-normal">
-                  By signing up, you confirm that you have read and agreed to
-                  our{' '}
-                  <Link href="#" className="font-semibold">
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link href="#" className="font-semibold">
-                    Privacy Policy
-                  </Link>
-                  .
-                </FormLabel>
-              </FormItem>
-            )}
-          />
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 bg-transparent"
-              size="lg"
-            >
-              <Image src={google} alt="google" height={24} width={24} />
-              Continue with Google
-            </Button>
-            <Button size="lg" className="hover:bg-primary-800">
-              Sign up
-            </Button>
-          </div>
+        <FormField
+          control={form.control}
+          name="agree"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <FormLabel className="leading-normal text-sm">
+                By signing up, you confirm that you have read and agreed to our{' '}
+                <Link href="#" className="font-semibold">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link href="#" className="font-semibold">
+                  Privacy Policy
+                </Link>
+                .
+              </FormLabel>
+            </FormItem>
+          )}
+        />
+
+        <div className="flex flex-col space-y-3">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 bg-transparent w-full"
+            size="lg"
+          >
+            <Image src={google} alt="google" height={24} width={24} />
+            Continue with Google
+          </Button>
+          <Button size="lg" className="hover:bg-primary-800 w-full">
+            Sign up
+          </Button>
         </div>
-        <p className="text-center">
+
+        <p className="text-center text-sm">
           Already have an account?{' '}
           <Link href="/login" className="underline">
             Sign in
