@@ -5,8 +5,8 @@ import React from 'react';
 
 const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
   return (
-    <div className="flex h-[717px] w-[726px] items-center justify-center rounded-xl bg-[#FAFAFA]">
-      <div className="flex w-[526px] flex-col space-y-5">
+    <div className="flex min-h-[50vh] w-full md:h-[717px] md:w-[726px] items-center justify-center rounded-xl bg-[#FAFAFA] p-4">
+      <div className="flex w-full max-w-[526px] flex-col space-y-5">
         <div
           onClick={() => props.setStep(1)}
           className="flex cursor-pointer flex-row items-center space-x-2"
@@ -15,17 +15,17 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
           <p className="text-base font-bold text-[#FE5722]">Back</p>
         </div>
 
-        <div className="flex h-[469px] w-full flex-col items-center justify-between rounded-xl bg-white px-5 py-10">
+        <div className="flex h-auto min-h-[400px] md:h-[469px] w-full flex-col items-center justify-between rounded-xl bg-white px-4 md:px-5 py-8 md:py-10">
           <div className="flex w-full flex-col items-center space-y-2">
-            <p className="text-2xl font-medium text-[#1D1B20]">
+            <p className="text-xl md:text-2xl font-medium text-[#1D1B20] text-center">
               Upload your picture
             </p>
-            <p className="text-sm text-[#000000]">
+            <p className="text-sm text-[#000000] text-center">
               Files should be JPEG, PNG, or JPG.
             </p>
           </div>
 
-          <div className="flex h-[259px] w-full flex-col items-center justify-center space-y-2 rounded-xl border-4 border-dashed border-[#CFCFCF] p-5">
+          <div className="flex h-auto min-h-[200px] md:h-[259px] w-full flex-col items-center justify-center space-y-2 rounded-xl border-4 border-dashed border-[#CFCFCF] p-4 md:p-5">
             <ImageUploadIcon />
             <p className="text-sm text-[#000000] text-center">
               Max File Size 5mb <br /> Drag and Drop your file or
@@ -35,10 +35,8 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
               Browse Files
             </Button>
           </div>
-
         </div>
       </div>
-
     </div>
   );
 };
