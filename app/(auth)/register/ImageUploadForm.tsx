@@ -84,7 +84,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
   const image = form.watch('image');
 
   return (
-    <div className="flex w-full min-h-screen sm:min-h-[50vh] items-center justify-center rounded-xl bg-[#FAFAFA] p-4">
+    <div className="flex w-full min-h-[50vh] items-center justify-center rounded-xl bg-[#FAFAFA] p-4">
       <div className="flex w-full max-w-[526px] flex-col space-y-5">
         <div
           onClick={() => props.setStep(1)}
