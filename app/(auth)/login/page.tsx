@@ -5,8 +5,8 @@ import SellerForm from './seller-form';
 
 export default function Page() {
   return (
-    <main className="space-y-8 py-12">
-      <Container className="space-y-2 text-center max-w-[836px] w-full">
+    <main className="space-y-8 py-12 flex items-center flex-col">
+      <Container className="space-y-2 text-center max-w-[400px] w-full">
         <h2 className="text-4xl">Sign In</h2>
         <p className="max-w-[600px] mx-auto text-[18px] text-center">
           Are you a buyer or a seller? Kindly provide accurate details to ensure
@@ -14,7 +14,7 @@ export default function Page() {
         </p>
 
       </Container>
-      <div className="mx-auto w-[95%] max-w-2xl rounded bg-[#FAFAFA] pb-6 pt-1">
+      <div className="w-full flex items-center justify-center max-w-[400px] rounded bg-[#FAFAFA] pb-6 pt-1 max-md:max-w-[95%]">
         <Tabs defaultValue="buyer" className="w-full bg-[#FAFAFA] space-y-6">
           <TabsList className="grid w-full grid-cols-2 border-b border-[#CAC4D0]">
             <TabsTrigger

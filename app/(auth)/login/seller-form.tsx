@@ -40,8 +40,8 @@ const SellerForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-[836px] w-full">
+        <div className="flex flex-col gap-6">
           <FormField
             control={form.control}
             name="email"
@@ -83,7 +83,7 @@ const SellerForm = () => {
             )}
           />
         </div>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="flex flex-col gap-4">
           <Button
             variant="outline"
             className="flex items-center gap-2 bg-transparent"
@@ -97,7 +97,6 @@ const SellerForm = () => {
           </Button>
         </div>
         <p className="text-center">
-
           Don&apos;t have an account?{' '}
           <Link href="/register" className="underline">
             Sign up
