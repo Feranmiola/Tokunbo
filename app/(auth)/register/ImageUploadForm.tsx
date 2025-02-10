@@ -7,11 +7,13 @@ import ImageUploadIcon from '@/assets/icons/ImageUploadIcon';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ChevronDown } from 'lucide-react';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+
 
 // Define max file size (5MB)
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -35,6 +37,8 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<ImageUploadFormValues>({
     resolver: zodResolver(imageUploadSchema),
@@ -45,28 +49,35 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles?.[0]) {
-      form.setValue('image', acceptedFiles[0], {
-        shouldValidate: true,
-      });
-      
-      setIsUploading(true);
-      
-      const progressInterval = setInterval(() => {
-        setUploadProgress((prevProgress) => {
-          const nextProgress = prevProgress + 10;
-          if (nextProgress >= 100) {
-            clearInterval(progressInterval);
-            setIsUploading(false);
-            setIsUploaded(true);
-            return 100;
-          }
-          return nextProgress;
+      const file = acceptedFiles[0];
+      try {
+        const objectUrl = URL.createObjectURL(file);
+        setPreviewUrl(objectUrl);
+        
+        form.setValue('image', file, {
+          shouldValidate: true,
         });
-      }, 1000);
+        
+        setIsUploading(true);
+        
+        const progressInterval = setInterval(() => {
+          setUploadProgress((prevProgress) => {
+            const nextProgress = prevProgress + 10;
+            if (nextProgress >= 100) {
+              clearInterval(progressInterval);
+              setIsUploading(false);
+              setIsUploaded(true);
+              return 100;
+            }
+            return nextProgress;
+          });
+        }, 1000);
 
+      } catch (error) {
+        console.error('Error handling file:', error);
+      }
     }
   }, [form]);
-
 
   const handleSave = () => {
     if (isUploaded) {
@@ -75,11 +86,24 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
   };
 
   const handleCancel = () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
     form.reset();
     setUploadProgress(0);
     setIsUploading(false);
     setIsUploaded(false);
   };
+
+  useEffect(() => {
+    return () => {
+      // Cleanup on unmount
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -121,10 +145,10 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
               }`}
             >
               <input {...getInputProps()} />
-              {image ? (
+              {image && previewUrl ? (
                 <div className="flex flex-col items-center space-y-4 w-full">
                   <img 
-                    src={URL.createObjectURL(image)} 
+                    src={previewUrl}
                     alt="Preview" 
                     className="max-w-full h-auto rounded-lg object-cover"
                   />
@@ -175,7 +199,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
                   Cancel
                 </Button>
                 <Button 
-                  onClick={handleSave}
+                  onClick={()=> setIsDialogOpen(true)}
                   disabled={!isUploaded}
                   className="flex-1 h-12 items-center justify-center bg-primary-500 text-white rounded-lg text-base font-bold hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -193,7 +217,25 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
           </div>
         </div>
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className='max-w-[452px] w-full flex flex-col items-center justify-evenly px-5'>
+          {previewUrl && (
+            <div className='w-[154px] h-[154px]'>
+              <img 
+                src={previewUrl} 
+                alt="Uploaded" 
+                className='w-full h-full object-cover rounded-lg' 
+              />
+            </div>
+          )}
+          <p className='text-center text-xl font-medium text-[#000000]'>Your picture has been successfully saved!</p>
+          <Button onClick={handleSave} className='bg-primary-500 text-white rounded-lg text-base font-bold hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-2'>
+            Continue
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
+
   );
 };
 
