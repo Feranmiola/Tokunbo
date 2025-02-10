@@ -81,7 +81,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
 
   const handleSave = () => {
     if (isUploaded) {
-      props.setStep(3);
+      props.setStep(1);
     }
   };
 
