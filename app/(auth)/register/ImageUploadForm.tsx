@@ -15,6 +15,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
           <p className="text-base font-bold text-[#FE5722]">Back</p>
         </div>
 
+        <div className='p-5 rounded-xl bg-[#F1F1F1] border-4 border-white'>
         <div className="flex h-auto min-h-[400px] md:h-[469px] w-full flex-col items-center justify-between rounded-xl bg-white px-4 md:px-5 py-8 md:py-10">
           <div className="flex w-full flex-col items-center space-y-2">
             <p className="text-xl md:text-2xl font-medium text-[#1D1B20] text-center">
@@ -35,6 +36,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
               Browse Files
             </Button>
           </div>
+        </div>
         </div>
       </div>
     </div>
