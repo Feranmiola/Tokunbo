@@ -7,12 +7,84 @@ import ImageUploadIcon from '@/assets/icons/ImageUploadIcon';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ChevronDown } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+// Define max file size (5MB)
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+
+// Define the schema
+const imageUploadSchema = z.object({
+  image: z
+    .custom<File>()
+    .refine((file) => file !== null, 'Image is required')
+    .refine((file) => file?.size <= MAX_FILE_SIZE, 'Max file size is 5MB')
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      'Only .jpg, .jpeg, and .png formats are supported'
+    ),
+});
+
+type ImageUploadFormValues = z.infer<typeof imageUploadSchema>;
 
 const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
-  const [image, setImage] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
+
+  const form = useForm<ImageUploadFormValues>({
+    resolver: zodResolver(imageUploadSchema),
+    defaultValues: {
+      image: undefined,
+    },
+  });
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (acceptedFiles?.[0]) {
+      form.setValue('image', acceptedFiles[0], {
+        shouldValidate: true,
+      });
+      
+      setIsUploading(true);
+      setUploadProgress(100);
+      setTimeout(() => {
+        setIsUploading(false);
+        setIsUploaded(true);
+      }, 3000);
+    }
+  }, [form]);
+
+
+  const handleSave = () => {
+    if (isUploaded) {
+      props.setStep(3);
+    }
+  };
+
+  const handleCancel = () => {
+    form.reset();
+    setUploadProgress(0);
+    setIsUploading(false);
+    setIsUploaded(false);
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'image/*': ACCEPTED_IMAGE_TYPES,
+    },
+    maxSize: MAX_FILE_SIZE,
+    multiple: false,
+  });
+
+  const image = form.watch('image');
+
   return (
-    <div className="flex min-h-screen w-full items-center justify-center rounded-xl bg-[#FAFAFA] p-4 sm:min-h-[50vh]">
+    <div className="flex w-full min-h-screen sm:min-h-[50vh] items-center justify-center rounded-xl bg-[#FAFAFA] p-4">
       <div className="flex w-full max-w-[526px] flex-col space-y-5">
         <div
           onClick={() => props.setStep(1)}
@@ -23,7 +95,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
         </div>
 
         <div className="rounded-xl border-4 border-white bg-[#F1F1F1] p-3 sm:p-5">
-          <div className="flex w-full flex-col items-center justify-between space-y-6 rounded-xl bg-white p-4 sm:p-6 md:p-8">
+          <div className="flex w-full flex-col items-center justify-between rounded-xl bg-white p-4 sm:p-6 md:p-8 space-y-6">
             <div className="flex w-full flex-col items-center space-y-2">
               <p className="text-center text-xl font-medium text-[#1D1B20] md:text-2xl">
                 Upload your picture
@@ -33,13 +105,19 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
               </p>
             </div>
 
-            <div className="flex w-full flex-col items-center justify-center space-y-4 rounded-xl border-4 border-dashed border-[#CFCFCF] p-4 sm:p-6 md:p-8">
+            <div 
+              {...getRootProps()} 
+              className={`flex w-full flex-col items-center justify-center space-y-4 rounded-xl border-4 border-dashed border-[#CFCFCF] p-4 sm:p-6 md:p-8 ${
+                isDragActive ? 'border-primary-500 bg-primary-50' : ''
+              }`}
+            >
+              <input {...getInputProps()} />
               {image ? (
-                <div className="flex w-full flex-col items-center space-y-4">
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt="Preview"
-                    className="h-auto max-w-full rounded-lg object-cover"
+                <div className="flex flex-col items-center space-y-4 w-full">
+                  <img 
+                    src={URL.createObjectURL(image)} 
+                    alt="Preview" 
+                    className="max-w-full h-auto rounded-lg object-cover"
                   />
                   <p className="text-center text-sm text-[#000000]">
                     {image.name}
@@ -61,31 +139,48 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
             {image && (
               <div className="flex w-full flex-col space-y-3">
                 <div className="flex w-full flex-row items-center justify-between rounded-xl border-4 border-white bg-[#F1F1F1] p-3 sm:p-4">
-                  <div className="flex w-full flex-row space-x-1 pr-2">
+                  <div className="flex flex-row w-full space-x-1 pr-2">
                     <ImageIconMini />
                     <div className="flex w-full max-w-[396px] flex-col">
                       <div className="flex w-full flex-row items-center justify-between">
                         <p className="text-sm">Uploading Image</p>
-                        <p className="text-sm">5MB</p>
+                        <p className="text-sm">{uploadProgress}%</p>
                       </div>
-                      <Progress value={50} className="w-full" />
+                      <Progress value={uploadProgress} className="w-full" />
                     </div>
                   </div>
-                  <div className="cursor-pointer">
+                  <div className="cursor-pointer" onClick={handleCancel}>
                     <CloseIcon />
                   </div>
                 </div>
+              </div>
 
-                <div className="flex w-full flex-col gap-2 sm:flex-row">
-                  <Button className="border-muted-100 text-muted-100 h-12 flex-1 items-center justify-center rounded-lg border bg-white text-base font-bold hover:border-primary-500 hover:bg-primary-500 hover:text-white">
-                    Cancel
-                  </Button>
-                  <Button className="h-12 flex-1 items-center justify-center rounded-lg bg-primary-500 text-base font-bold text-white hover:bg-primary-600">
-                    Upload
-                  </Button>
-                </div>
+            )}
+
+            {image && !isUploading && (
+              <div className="flex flex-col sm:flex-row gap-2 w-full">
+                <Button 
+                  onClick={handleCancel}
+                  className="flex-1 h-12 items-center justify-center text-base font-bold hover:border-primary-500 hover:bg-primary-500 hover:text-white border border-muted-100 bg-white text-muted-100 rounded-lg"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleSave}
+                  disabled={!isUploaded}
+                  className="flex-1 h-12 items-center justify-center bg-primary-500 text-white rounded-lg text-base font-bold hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Save
+                </Button>
               </div>
             )}
+
+            {form.formState.errors.image && (
+              <p className="text-sm text-red-500">
+                {form.formState.errors.image.message}
+              </p>
+            )}
+
           </div>
         </div>
       </div>
