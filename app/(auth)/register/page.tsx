@@ -5,6 +5,7 @@ import BuyerForm from './BuyerForm';
 import SellerForm from './SellerForm';
 import { useState } from 'react';
 import ImageUploadForm from './ImageUploadForm';
+import ContactInformation from './ContactInformation';
 
 export default function Page() {
   const [step, setStep] = useState<number>(1)
@@ -51,6 +52,10 @@ export default function Page() {
 
       {step === 2 && (
         <ImageUploadForm setStep ={setStep} />
+      )}
+
+      {step === 3 && (
+        <ContactInformation setStep ={setStep} />
       )}
 
     </div>
