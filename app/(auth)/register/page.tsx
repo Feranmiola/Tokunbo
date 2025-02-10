@@ -9,7 +9,7 @@ import ImageUploadForm from './ImageUploadForm';
 export default function Page() {
   const [step, setStep] = useState<number>(2)
   return (
-    <div className='flex w-full items-center justify-center py-12'>
+    <div className='flex w-full items-center justify-center py-12 px-2'>
       {step === 1 && (
         <div className="flex flex-col items-center space-y-8">
         <Container className="max-w-[400px] space-y-2 text-center">
