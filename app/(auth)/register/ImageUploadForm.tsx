@@ -50,11 +50,20 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
       });
       
       setIsUploading(true);
-      setUploadProgress(100);
-      setTimeout(() => {
-        setIsUploading(false);
-        setIsUploaded(true);
-      }, 3000);
+      
+      const progressInterval = setInterval(() => {
+        setUploadProgress((prevProgress) => {
+          const nextProgress = prevProgress + 10;
+          if (nextProgress >= 100) {
+            clearInterval(progressInterval);
+            setIsUploading(false);
+            setIsUploaded(true);
+            return 100;
+          }
+          return nextProgress;
+        });
+      }, 1000);
+
     }
   }, [form]);
 
