@@ -67,7 +67,9 @@ export default {
         },
         black: {
           DEFAULT: '#000000',
+          dark: '#2F2F2F',
           d: '#333333',
+          light: '#676767',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

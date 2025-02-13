@@ -6,9 +6,10 @@ import SellerForm from './SellerForm';
 import { useState } from 'react';
 import ImageUploadForm from './ImageUploadForm';
 import ContactInformation from './ContactInformation';
+import PaymentInformation from './PaymentInformation';
 
 export default function Page() {
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(4)
   return (
     <div className='flex w-full items-center justify-center py-12 px-2'>
       {step === 1 && (
@@ -58,6 +59,9 @@ export default function Page() {
         <ContactInformation setStep ={setStep} />
       )}
 
+      {step === 4 && (
+        <PaymentInformation setStep ={setStep} />
+      )}
     </div>
   );
 
