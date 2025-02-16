@@ -1,11 +1,14 @@
+'use client'
+
 import PaypalIconSmall from '@/assets/icons/PaypalIconSmall';
 import BankTransferImage from '@/assets/images/BankTransferImage';
 import CreditCardImage from '@/assets/images/CreditCardImage';
 import PaymentMethodImage from '@/assets/images/PaymentMethodImage';
 import { ChevronDown } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 
 const PaymentInformation = (props: { setStep: (step: number) => void }) => {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   return (
     <div className="flex w-full items-center justify-center">
       <div className="flex w-full max-w-[836px] flex-col space-y-5">
@@ -37,21 +40,21 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
             <div className="flex w-full flex-col gap-4">
               <p className="text-black-dark text-sm">Choose Payment Option</p>
               <div className="flex w-full flex-col space-y-2">
-                <div className="flex flex-row items-center space-x-3 rounded-lg bg-white px-3 py-1">
+                <div className={`flex flex-row items-center cursor-pointer space-x-3 rounded-lg shadow-sm px-3 py-1 ${selectedPaymentMethod === 'Paypal' ? 'bg-[#BABABA33]' : 'bg-white'}`} onClick={() => setSelectedPaymentMethod('Paypal')}>
                   <PaypalIconSmall />
                   <p className="text-black-dark text-[18px] font-medium">
                     Paypal
                   </p>
                 </div>
 
-                <div className="flex flex-row items-center space-x-3 rounded-lg bg-white px-3 py-1">
+                <div className={`flex flex-row items-center cursor-pointer space-x-3 rounded-lg shadow-sm px-3 py-1 ${selectedPaymentMethod === 'Credit/Debit Cards' ? 'bg-[#BABABA33]' : 'bg-white'}`} onClick={() => setSelectedPaymentMethod('Credit/Debit Cards')}>
                   <CreditCardImage />
                   <p className="text-black-dark text-[18px] font-medium">
                   Credit/Debit Cards (Visa, Mastercard, etc.)
                   </p>
                 </div>
 
-                <div className="flex flex-row items-center space-x-3 rounded-lg bg-white px-3 py-1">
+                <div className={`flex flex-row items-center cursor-pointer space-x-3 rounded-lg shadow-sm px-3 py-1 ${selectedPaymentMethod === 'Bank Transfer' ? 'bg-[#BABABA33]' : 'bg-white'}`} onClick={() => setSelectedPaymentMethod('Bank Transfer')}>
                   <BankTransferImage/>
                   <p className="text-black-dark text-[18px] font-medium">
                     Bank Transfer
