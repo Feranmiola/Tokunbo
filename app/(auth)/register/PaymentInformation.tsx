@@ -20,6 +20,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useRouter } from 'next/navigation';
+import { preventClickout } from '@/components/Hooks/usePreventClickout';
 
 const paypalSchema = z.object({
   email: z
@@ -42,8 +45,10 @@ const bankTransferSchema = z.object({
 });
 
 const PaymentInformation = (props: { setStep: (step: number) => void }) => {
+  const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>('');
+    const [isSelectedPaymentDialogOpen, setIsSelectedPaymentDialogOpen] = useState(false)
 
   const paypalForm = useForm<z.infer<typeof paypalSchema>>({
     resolver: zodResolver(paypalSchema),
@@ -73,13 +78,17 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
 
   const onSubmit = (values: z.infer<typeof paypalSchema>) => {
     console.log(values);
+    setIsSelectedPaymentDialogOpen(true)
   };
   const onCreditCardSubmit = (values: z.infer<typeof creditCardSchema>) => {
     console.log(values);
+    setIsSelectedPaymentDialogOpen(true)
   };
   const onBankTransferSubmit = (values: z.infer<typeof bankTransferSchema>) => {
     console.log(values);
+    setIsSelectedPaymentDialogOpen(true)
   };
+
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -143,6 +152,23 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                 </div>
               </div>
 
+              <Dialog open={isSelectedPaymentDialogOpen} onOpenChange={preventClickout}>
+                <DialogContent className="flex w-full max-w-[452px] flex-col items-center justify-evenly px-5">
+                  <div className="h-[99px] w-[121px] rounded-lg">
+                    <PaymentMethodImage />
+                  </div>
+                  <p className="text-center text-xl font-medium text-[#000000]">
+                    Your payment option has been successfully saved!
+                  </p>
+                  <Button
+                    onClick={() => router.push('/')}
+                    className="rounded-lg bg-primary-500 px-3 py-2 text-base font-bold text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Continue
+                  </Button>
+                </DialogContent>
+              </Dialog>
+
               {selectedPaymentMethod === '' && (
                 <div
                   onClick={() => props.setStep(1)}
@@ -187,7 +213,10 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                         />
 
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
-                          <div onClick={() => props.setStep(5)} className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3">
+                          <div
+                            onClick={() => props.setStep(5)}
+                            className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
+                          >
                             <p className="text-[18px] font-medium text-black-dark">
                               Skip
                             </p>
@@ -219,7 +248,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                         onSubmit={creditCardForm.handleSubmit(
                           onCreditCardSubmit,
                         )}
-                        className="flex flex-col w-full space-y-5"
+                        className="flex w-full flex-col space-y-5"
                       >
                         <div className="flex w-full flex-col gap-6">
                           <div className="flex w-full flex-row space-x-5">
@@ -308,7 +337,10 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                           />
                         </div>
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
-                          <div onClick={() => props.setStep(5)} className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3">
+                          <div
+                            onClick={() => props.setStep(5)}
+                            className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
+                          >
                             <p className="text-[18px] font-medium text-black-dark">
                               Skip
                             </p>
@@ -341,9 +373,9 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                         onSubmit={bankTransferForm.handleSubmit(
                           onBankTransferSubmit,
                         )}
-                        className="flex flex-col w-full space-y-5"
+                        className="flex w-full flex-col space-y-5"
                       >
-                         <div className="flex w-full flex-row space-x-5">
+                        <div className="flex w-full flex-row space-x-5">
                           <FormField
                             control={bankTransferForm.control}
                             name="bankName"
@@ -364,7 +396,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                               </FormItem>
                             )}
                           />
-                                        <FormField
+                          <FormField
                             control={bankTransferForm.control}
                             name="accountHolderName"
                             render={({ field }) => (
@@ -406,11 +438,14 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                               </FormItem>
                             )}
                           />
-                         <div className='w-full opacity-0'></div>
+                          <div className="w-full opacity-0"></div>
                         </div>
 
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
-                          <div onClick={() => props.setStep(5)} className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3">
+                          <div
+                            onClick={() => props.setStep(5)}
+                            className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
+                          >
                             <p className="text-[18px] font-medium text-black-dark">
                               Skip
                             </p>
@@ -425,10 +460,8 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                             </p>
                           </Button>
                         </div>
-
                       </form>
                     </Form>
-                    
                   </div>
                 </div>
               )}
