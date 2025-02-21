@@ -37,7 +37,7 @@ const BuyerForm = (props: {setStep: (step: number) => void, setRole: (role: stri
     props.setStep(2)
     props.setRole('buyer')
     props.setEmail(values.email)
-    props.setUsername(values.fullName)
+    props.setUsername(values.fullName.replace(/\s+/g, ''))
     props.setPassword(values.password)
     console.log(values);
   };
