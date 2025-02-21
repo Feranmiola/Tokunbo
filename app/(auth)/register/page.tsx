@@ -1,3 +1,5 @@
+/* eslint-disable*/
+
 'use client'
 import Container from '@/components/shared/container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,9 +9,45 @@ import { useState } from 'react';
 import ImageUploadForm from './ImageUploadForm';
 import ContactInformation from './ContactInformation';
 import PaymentInformation from './PaymentInformation';
-
+import { useSignUp } from '@/components/Hooks/UseSignUp';
+import { useRouter } from 'next/navigation';
 export default function Page() {
+  const router = useRouter()
   const [step, setStep] = useState<number>(1)
+  const [profilePictureUrl, setProvilePictureURL] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
+
+  const {signUp, isLoading} = useSignUp()
+
+  const handleSubmit = () =>{
+    signUp(
+      {
+        username,
+        email,
+        password,
+        role : role,
+        location: '',
+        phone_number: '',
+        profile_picture : profilePictureUrl
+      },
+      {
+        onSuccess: (response: any) => {
+          router.push('/')
+          console.log("Response:", response);
+          
+        },
+        onError: (error: any) => {
+          console.log("Error:", error);
+          
+        },
+      }
+    );
+  }
+
+
   return (
     <div className='flex w-full items-center justify-center py-12 px-2'>
       {step === 1 && (
@@ -40,10 +78,20 @@ export default function Page() {
               </TabsTrigger>
             </TabsList>
             <TabsContent className='px-6' value="buyer">
-              <BuyerForm setStep ={setStep} />
+              <BuyerForm
+              setRole={setRole}
+              setEmail={setEmail}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setStep ={setStep} />
             </TabsContent>
             <TabsContent className='px-6' value="seller">
-              <SellerForm setStep ={setStep} />
+              <SellerForm 
+              setRole={setRole}
+              setEmail={setEmail}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setStep ={setStep} />
 
             </TabsContent>
           </Tabs>
@@ -52,7 +100,9 @@ export default function Page() {
       )}
 
       {step === 2 && (
-        <ImageUploadForm setStep ={setStep} />
+        <ImageUploadForm
+        setProvilePictureURL={setProvilePictureURL}
+        setStep ={setStep} />
       )}
 
       {step === 3 && (
@@ -60,7 +110,10 @@ export default function Page() {
       )}
 
       {step === 4 && (
-        <PaymentInformation setStep ={setStep} />
+        <PaymentInformation
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        setStep ={setStep} />
       )}
     </div>
   );

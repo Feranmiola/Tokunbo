@@ -44,7 +44,7 @@ const bankTransferSchema = z.object({
   accountHolderName: z.string().min(1, 'Account holder name is required'),
 });
 
-const PaymentInformation = (props: { setStep: (step: number) => void }) => {
+const PaymentInformation = (props: { setStep: (step: number) => void, handleSubmit: () => void, isLoading: boolean }) => {
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>('');
@@ -79,14 +79,17 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
   const onSubmit = (values: z.infer<typeof paypalSchema>) => {
     console.log(values);
     setIsSelectedPaymentDialogOpen(true)
+    props.handleSubmit()
   };
   const onCreditCardSubmit = (values: z.infer<typeof creditCardSchema>) => {
     console.log(values);
     setIsSelectedPaymentDialogOpen(true)
+    props.handleSubmit()
   };
   const onBankTransferSubmit = (values: z.infer<typeof bankTransferSchema>) => {
     console.log(values);
     setIsSelectedPaymentDialogOpen(true)
+    props.handleSubmit()
   };
 
 
@@ -171,11 +174,11 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
 
               {selectedPaymentMethod === '' && (
                 <div
-                  onClick={() => props.setStep(1)}
+                  onClick={() => props.handleSubmit()}
                   className="flex flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3 py-2"
                 >
                   <p className="text-[18px] font-medium text-black-dark">
-                    Skip
+                    {props.isLoading ? 'Saving...' : 'Skip'}
                   </p>
                 </div>
               )}
@@ -214,11 +217,11 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
 
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
                           <div
-                            onClick={() => props.setStep(5)}
+                            onClick={() => props.handleSubmit()}
                             className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
                           >
                             <p className="text-[18px] font-medium text-black-dark">
-                              Skip
+                              {props.isLoading ? 'Saving...' : 'Skip'}
                             </p>
                           </div>
 
@@ -227,7 +230,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                             className="flex h-[72px] w-1/2 flex-1 flex-row items-center justify-center space-x-3 rounded-lg bg-primary-500 px-3 hover:bg-primary-800"
                           >
                             <p className="text-[18px] font-medium text-white">
-                              Save
+                              {props.isLoading ? 'Saving...' : 'Save'}
                             </p>
                           </Button>
                         </div>
@@ -338,11 +341,11 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                         </div>
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
                           <div
-                            onClick={() => props.setStep(5)}
+                            onClick={() => props.handleSubmit()}
                             className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
                           >
                             <p className="text-[18px] font-medium text-black-dark">
-                              Skip
+                              {props.isLoading ? 'Saving...' : 'Skip'}
                             </p>
                           </div>
 
@@ -351,7 +354,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                             className="flex h-[72px] w-1/2 flex-1 flex-row items-center justify-center space-x-3 rounded-lg bg-primary-500 px-3 hover:bg-primary-800"
                           >
                             <p className="text-[18px] font-medium text-white">
-                              Save
+                              {props.isLoading ? 'Saving...' : 'Save'}
                             </p>
                           </Button>
                         </div>
@@ -443,11 +446,11 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
 
                         <div className="flex w-full flex-row items-center justify-between space-x-5">
                           <div
-                            onClick={() => props.setStep(5)}
+                            onClick={() => props.handleSubmit()}
                             className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
                           >
                             <p className="text-[18px] font-medium text-black-dark">
-                              Skip
+                              {props.isLoading ? 'Saving...' : 'Skip'}
                             </p>
                           </div>
 
@@ -456,7 +459,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void }) => {
                             className="flex h-[72px] w-1/2 flex-1 flex-row items-center justify-center space-x-3 rounded-lg bg-primary-500 px-3 hover:bg-primary-800"
                           >
                             <p className="text-[18px] font-medium text-white">
-                              Save
+                              {props.isLoading ? 'Saving...' : 'Save'}
                             </p>
                           </Button>
                         </div>

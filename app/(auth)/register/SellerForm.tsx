@@ -30,7 +30,7 @@ import { useState } from 'react';
 
 type Schema = z.infer<typeof sellerSchema>;
 
-const SellerForm = (props: {setStep: (step: number) => void}) => {
+const SellerForm = (props: {setStep: (step: number) => void, setRole: (role: string) => void, setEmail: (email: string) => void, setUsername: (username: string) => void, setPassword: (password: string) => void}) => {
   const [isNINDialogOpen, setIsNINDialogOpen] = useState(false);
   const form = useForm<Schema>({
     resolver: zodResolver(sellerSchema),
@@ -45,7 +45,11 @@ const SellerForm = (props: {setStep: (step: number) => void}) => {
   });
 
   const onSubmit = (values: Schema) => {
-    props.setStep(2)
+    props.setStep(2)  
+    props.setRole('seller')
+    props.setEmail(values.email)
+    props.setUsername(values.fullName)
+    props.setPassword(values.password)
     console.log(values);
   };
 

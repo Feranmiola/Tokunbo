@@ -21,7 +21,7 @@ import Image from 'next/image';
 
 type Schema = z.infer<typeof buyerSchema>;
 
-const BuyerForm = (props: {setStep: (step: number) => void}) => {
+const BuyerForm = (props: {setStep: (step: number) => void, setRole: (role: string) => void, setEmail: (email: string) => void, setUsername: (username: string) => void, setPassword: (password: string) => void}) => {
   const form = useForm<Schema>({
     resolver: zodResolver(buyerSchema),
     defaultValues: {
@@ -35,6 +35,10 @@ const BuyerForm = (props: {setStep: (step: number) => void}) => {
 
   const onSubmit = (values: Schema) => {
     props.setStep(2)
+    props.setRole('buyer')
+    props.setEmail(values.email)
+    props.setUsername(values.fullName)
+    props.setPassword(values.password)
     console.log(values);
   };
 

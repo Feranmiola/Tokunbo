@@ -33,7 +33,7 @@ const imageUploadSchema = z.object({
 
 type ImageUploadFormValues = z.infer<typeof imageUploadSchema>;
 
-const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
+const ImageUploadForm = (props: { setStep: (step: number) => void, setProvilePictureURL: (url: string) => void }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
@@ -52,6 +52,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void }) => {
       const file = acceptedFiles[0];
       try {
         const objectUrl = URL.createObjectURL(file);
+        props.setProvilePictureURL(objectUrl)
         setPreviewUrl(objectUrl);
         
         form.setValue('image', file, {
