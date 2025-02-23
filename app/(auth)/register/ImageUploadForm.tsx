@@ -37,7 +37,7 @@ const ImageUploadForm = (props: { setStep: (step: number) => void, setProvilePic
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<ImageUploadFormValues>({

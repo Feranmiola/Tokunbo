@@ -11,6 +11,8 @@ import ContactInformation from './ContactInformation';
 import PaymentInformation from './PaymentInformation';
 import { useSignUp } from '@/components/Hooks/UseSignUp';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner'
+
 export default function Page() {
   const router = useRouter()
   const [step, setStep] = useState<number>(1)
@@ -37,11 +39,12 @@ export default function Page() {
         onSuccess: (response: any) => {
           router.push('/')
           console.log("Response:", response);
+          toast.success('Signed up successfully')
           
         },
         onError: (error: any) => {
           console.log("Error:", error);
-          
+          toast.error(error?.message || 'Failed to sign up')
         },
       }
     );

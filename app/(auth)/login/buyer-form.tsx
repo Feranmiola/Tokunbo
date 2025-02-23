@@ -16,7 +16,7 @@ import google from '@/assets/icons/google.svg';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-
+import { ClipLoader } from 'react-spinners';
 const schema = z.object({
   password: z.string().min(1, 'Password is required'),
   email: z
@@ -25,7 +25,7 @@ const schema = z.object({
     .email('Invalid email address'),
 });
 
-const BuyerForm = () => {
+const BuyerForm = (props: {setEmail: (email: string) => void, setPassword: (password: string) => void, handleSubmit: () => void, isLoading: boolean}) => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -35,7 +35,9 @@ const BuyerForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof schema>) => {
-    console.log(values);
+    props.setEmail(values.email)
+    props.setPassword(values.password)
+    props.handleSubmit()
   };
 
   return (
@@ -92,8 +94,8 @@ const BuyerForm = () => {
             <Image src={google} alt="google" height={24} width={24} />
             Continue with Google
           </Button>
-          <Button size="lg" className="hover:bg-primary-800">
-            Sign in
+          <Button type='submit' size="lg" className="hover:bg-primary-800">
+            {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Sign in'}
           </Button>
         </div>
         <p className="text-center">

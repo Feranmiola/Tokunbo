@@ -1,9 +1,39 @@
+/* eslint-disable */
+'use client'
 import Container from '@/components/shared/container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BuyerForm from './buyer-form';
 import SellerForm from './seller-form';
+import { useSignIn } from '@/components/Hooks/UseSignIn';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner'
 
 export default function Page() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
+  const {signIn, isLoading} = useSignIn()
+
+  const handleSubmit = () =>{
+    signIn(
+      {
+        email,
+        password,
+      },
+      {
+        onSuccess: (response: any) => {
+          toast.success('Signed in successfully')
+          router.push('/')
+          console.log("Response:", response);
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || 'Failed to sign in')
+          console.log("Error:", error);
+          },
+      }
+    );
+  }
   return (
     <main className="space-y-8 py-12 flex items-center flex-col">
       <Container className="space-y-2 text-center max-w-[400px] w-full">
@@ -32,11 +62,11 @@ export default function Page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent className='px-6' value="buyer">
-            <BuyerForm />
+            <BuyerForm setEmail={setEmail} setPassword={setPassword} handleSubmit={handleSubmit}  isLoading={isLoading}/>
           </TabsContent>
           <TabsContent className='px-6' value="seller">
 
-            <SellerForm />
+            <SellerForm setEmail={setEmail} setPassword={setPassword} handleSubmit={handleSubmit}  isLoading={isLoading}/>
           </TabsContent>
         </Tabs>
       </div>

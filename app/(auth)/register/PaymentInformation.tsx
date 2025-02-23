@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 import { preventClickout } from '@/components/Hooks/usePreventClickout';
+import { ClipLoader } from 'react-spinners';
 
 const paypalSchema = z.object({
   email: z
@@ -178,7 +179,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void, handleSubm
                   className="flex flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3 py-2"
                 >
                   <p className="text-[18px] font-medium text-black-dark">
-                    {props.isLoading ? 'Saving...' : 'Skip'}
+                    {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Skip'}
                   </p>
                 </div>
               )}
@@ -221,7 +222,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void, handleSubm
                             className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
                           >
                             <p className="text-[18px] font-medium text-black-dark">
-                              {props.isLoading ? 'Saving...' : 'Skip'}
+                              {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Skip'}
                             </p>
                           </div>
 
@@ -230,7 +231,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void, handleSubm
                             className="flex h-[72px] w-1/2 flex-1 flex-row items-center justify-center space-x-3 rounded-lg bg-primary-500 px-3 hover:bg-primary-800"
                           >
                             <p className="text-[18px] font-medium text-white">
-                              {props.isLoading ? 'Saving...' : 'Save'}
+                              {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Save'}
                             </p>
                           </Button>
                         </div>
@@ -345,7 +346,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void, handleSubm
                             className="flex h-[72px] w-1/2 flex-1 cursor-pointer flex-row items-center justify-center space-x-3 rounded-lg border border-black-dark px-3"
                           >
                             <p className="text-[18px] font-medium text-black-dark">
-                              {props.isLoading ? 'Saving...' : 'Skip'}
+                              {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Skip'}
                             </p>
                           </div>
 
@@ -354,7 +355,7 @@ const PaymentInformation = (props: { setStep: (step: number) => void, handleSubm
                             className="flex h-[72px] w-1/2 flex-1 flex-row items-center justify-center space-x-3 rounded-lg bg-primary-500 px-3 hover:bg-primary-800"
                           >
                             <p className="text-[18px] font-medium text-white">
-                              {props.isLoading ? 'Saving...' : 'Save'}
+                              {props.isLoading ? <ClipLoader color='#000' size={20} /> : 'Save'}
                             </p>
                           </Button>
                         </div>
