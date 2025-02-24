@@ -14,7 +14,7 @@ interface AuthData {
 export const useSignUp = () => {
   const signInMutation = useMutation({
     mutationFn: async (data: AuthData) =>
-      await axios.put(`${process.env.NEXT_BACKEND_API_URL}/auth/signup`, data),
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/signup`, data),
   });
 
   return {
