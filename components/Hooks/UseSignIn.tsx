@@ -8,11 +8,8 @@ interface AuthData {
 
 export const useSignIn = () => {
   const signInMutation = useMutation({
-    mutationFn: async (data: AuthData) => {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/signin`, data);
-      console.log('Sign in response:', response.data);
-      return response;
-    },
+    mutationFn: async (data: AuthData) =>
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/signin`, data),
   });
 
   return {
