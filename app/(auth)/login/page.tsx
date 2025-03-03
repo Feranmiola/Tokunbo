@@ -8,12 +8,13 @@ import { useSignIn } from '@/components/Hooks/UseSignIn';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner'
-
+import { useAuth } from '@/app/Context/AuthContext';
 export default function Page() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
   const {signIn, isLoading} = useSignIn()
+  const {setUsername, setEmail: setAuthEmail, setUserId, setRole, setProfilePicture, setAccessToken, setRefreshToken, setIsAuthenticated} = useAuth();
 
   const handleSubmit = () =>{
     signIn(
@@ -23,6 +24,14 @@ export default function Page() {
       },
       {
         onSuccess: (response: any) => {
+          setUsername(response.data.user.username)
+          setAuthEmail(response.data.user.email)
+          setUserId(response.data.user.user_id)
+          setRole(response.data.user.role)
+          setProfilePicture(response.data.user.profile_picture)
+          setAccessToken(response.data.accessToken)
+          setRefreshToken(response.data.refreshToken)
+          setIsAuthenticated(true)
           toast.success('Signed in successfully')
           router.push('/')
           console.log("Response:", response);

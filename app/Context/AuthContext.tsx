@@ -17,6 +17,7 @@ interface AuthContextType {
     refreshToken: string;
     setRefreshToken: (refreshToken: string) => void;
     isAuthenticated: boolean;
+    setIsAuthenticated: (isAuthenticated: boolean) => void; 
     logout: () => void;
     isLoading: boolean;
 }
@@ -106,7 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             profilePicture, setProfilePicture,
             accessToken, setAccessToken,
             refreshToken, setRefreshToken,
-            isAuthenticated,
+            isAuthenticated, setIsAuthenticated,
             logout,
             isLoading
         }}>
