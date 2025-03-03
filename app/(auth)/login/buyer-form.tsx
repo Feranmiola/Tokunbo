@@ -40,6 +40,7 @@ const BuyerForm = (props: {setEmail: (email: string) => void, setPassword: (pass
     props.handleSubmit()
   };
 
+  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-[836px] w-full">
