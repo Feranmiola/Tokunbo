@@ -16,6 +16,7 @@ interface AuthContextType {
     setAccessToken: (accessToken: string) => void;
     refreshToken: string;
     setRefreshToken: (refreshToken: string) => void;
+    isAuthenticated: boolean;
     logout: () => void;
     isLoading: boolean;
 }
@@ -30,8 +31,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [profilePicture, setProfilePicture] = useState<string>('');
     const [accessToken, setAccessToken] = useState<string>('');
     const [refreshToken, setRefreshToken] = useState<string>('');
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-
 
     useEffect(() => {
         const loadAuthState = () => {
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const storedProfilePicture = localStorage.getItem('TOKUNBO_MARKET_profilePicture') || '';
             const storedAccessToken = localStorage.getItem('TOKUNBO_MARKET_accessToken') || '';
             const storedRefreshToken = localStorage.getItem('TOKUNBO_MARKET_refreshToken') || '';
+            const storedIsAuthenticated = localStorage.getItem('TOKUNBO_MARKET_isAuthenticated') === 'true';
 
             setUsername(storedUsername);
             setEmail(storedEmail);
@@ -50,6 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setProfilePicture(storedProfilePicture);
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
+            setIsAuthenticated(storedIsAuthenticated);
             setIsLoading(false);
         };
 
@@ -65,10 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             localStorage.setItem('TOKUNBO_MARKET_profilePicture', profilePicture);
             localStorage.setItem('TOKUNBO_MARKET_accessToken', accessToken);
             localStorage.setItem('TOKUNBO_MARKET_refreshToken', refreshToken);
+            localStorage.setItem('TOKUNBO_MARKET_isAuthenticated', isAuthenticated.toString());
         }
     }, [
         username, email, user_id, role, profilePicture, 
-        accessToken, refreshToken, isLoading
+        accessToken, refreshToken, isAuthenticated, isLoading
     ]);
 
     const logout = () => {
@@ -79,6 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setProfilePicture('');
         setAccessToken('');
         setRefreshToken('');
+        setIsAuthenticated(false);
 
         localStorage.removeItem('TOKUNBO_MARKET_username');
         localStorage.removeItem('TOKUNBO_MARKET_email');
@@ -87,6 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.removeItem('TOKUNBO_MARKET_profilePicture');
         localStorage.removeItem('TOKUNBO_MARKET_accessToken');
         localStorage.removeItem('TOKUNBO_MARKET_refreshToken');
+        localStorage.removeItem('TOKUNBO_MARKET_isAuthenticated');
 
         window.location.reload();
     };
@@ -100,6 +106,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             profilePicture, setProfilePicture,
             accessToken, setAccessToken,
             refreshToken, setRefreshToken,
+            isAuthenticated,
             logout,
             isLoading
         }}>
